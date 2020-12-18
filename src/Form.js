@@ -19,6 +19,24 @@ export default function Form() {
   const [users, setUsers] = useState(usersList)
   const [formValues, setFormValues] = useState(initialFormValues)
 
+  const change = evt => {
+    const { name, value } = evt.target
+    setFormValues({ ...formValues, [name]: value })
+  }
+
+  const submit = evt => {
+    evt.preventDefault()
+
+    const newUser = {
+      name: formValues.name.trim(),
+      email: formValues.email.trim(),
+      password: formValues.password
+    }
+
+    setUsers(users.concat(newUser))
+    setFormValues(initialFormValues)
+  }
+
   return (
     <>
       <h2>Members:</h2>
@@ -32,11 +50,13 @@ export default function Form() {
 
       })}
 
-      <form>
+      <form onSubmit={submit}>
         <label>Name&nbsp;
           <input
             name='name'
             type='text'
+            value={formValues.name}
+            onChange={change}
           />
         </label>
 
@@ -44,6 +64,8 @@ export default function Form() {
             <input
             name='email'
             type='email'
+            value={formValues.email}
+            onChange={change}
           />
         </label>
 
@@ -51,6 +73,8 @@ export default function Form() {
             <input
             name='password'
             type='password'
+            value={formValues.password}
+            onChange={change}
           />
         </label>
 
